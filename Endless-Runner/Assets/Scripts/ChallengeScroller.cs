@@ -1,0 +1,55 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChallengeScroller : MonoBehaviour
+{
+    public float scrollSpeed = 5f;
+    public GameObject[] obstacles;
+    
+    public float obstacleFrequency = 0.5f;
+    public Transform obstacleSpawnPoint;
+    float counter = 0.0f;
+    float destroyLocationOffset = -15.0f;
+    
+
+    private void Update()
+    {
+        //Generate new obstacles
+        if (counter <= 0.0f)
+        {
+            GenerateRandomObstacle();
+        }
+        else
+        {
+            counter -= Time.deltaTime * obstacleFrequency;
+        }
+
+        //Scrolling
+        GameObject currentChild;
+
+        for(int i =0; i < transform.childCount; i++)
+        {
+            currentChild = transform.GetChild(i).gameObject;
+            scrollObstacles(currentChild);
+            //Destroys object if offscreen.
+            if (currentChild.transform.position.x <= destroyLocationOffset)
+            {
+                Destroy(currentChild);
+            }
+        }
+
+        
+    }
+
+    void scrollObstacles (GameObject currentChallenege)
+    {
+        currentChallenege.transform.position -= Vector3.right * (scrollSpeed * Time.deltaTime);
+    }
+
+    void GenerateRandomObstacle()
+    {
+        Instantiate(obstacles[Random.Range(0, obstacles.Length)], obstacleSpawnPoint.position, Quaternion.identity, this.transform);
+        counter = 1.0f;
+    }
+}
