@@ -11,10 +11,15 @@ public class ChallengeScroller : MonoBehaviour
     public Transform obstacleSpawnPoint;
     float counter = 0.0f;
     float destroyLocationOffset = -15.0f;
-    
+
+    bool isGameOver = false;
 
     private void Update()
     {
+        if (isGameOver)
+        {
+            return;
+        }
         //Generate new obstacles
         if (counter <= 0.0f)
         {
@@ -42,6 +47,12 @@ public class ChallengeScroller : MonoBehaviour
         
     }
 
+  public void setGameOver()
+    {
+        isGameOver = true;
+        transform.GetComponent<GameController>().InvokeGameOver();
+    }
+
     void scrollObstacles (GameObject currentChallenege)
     {
         currentChallenege.transform.position -= Vector3.right * (scrollSpeed * Time.deltaTime);
@@ -52,4 +63,5 @@ public class ChallengeScroller : MonoBehaviour
         Instantiate(obstacles[Random.Range(0, obstacles.Length)], obstacleSpawnPoint.position, Quaternion.identity, this.transform);
         counter = 1.0f;
     }
+
 }
