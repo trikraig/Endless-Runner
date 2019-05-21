@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
     public GameObject gameOverPanel;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameOverText;
+    int score = 0;
+     
 
     // Start is called before the first frame update
     void Start()
@@ -21,16 +27,24 @@ public class GameController : MonoBehaviour
 
     public void InvokeGameOver()
     {
-        Invoke("ShowOverPanel", 2.0f);
+        Invoke("ShowOverPanel", 1.0f);
     }
 
     void ShowOverPanel()
     {
+        gameOverText.text = scoreText.text;
+        scoreText.gameObject.SetActive(false);
         gameOverPanel.SetActive(true);
     }
 
     public void RestartGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void IncreaseScore(int amount)
+    {
+        score += amount;
+        scoreText.text = score.ToString();
     }
 }

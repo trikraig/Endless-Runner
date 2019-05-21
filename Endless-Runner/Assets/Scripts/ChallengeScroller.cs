@@ -6,13 +6,18 @@ public class ChallengeScroller : MonoBehaviour
 {
     public float scrollSpeed = 5f;
     public GameObject[] obstacles;
-    
+    GameObject Player;
     public float obstacleFrequency = 0.5f;
     public Transform obstacleSpawnPoint;
     float counter = 0.0f;
     float destroyLocationOffset = -15.0f;
 
     bool isGameOver = false;
+
+    private void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void Update()
     {
@@ -37,6 +42,11 @@ public class ChallengeScroller : MonoBehaviour
         {
             currentChild = transform.GetChild(i).gameObject;
             scrollObstacles(currentChild);
+            ////Score increase after cleared obstatcle.
+            //if (currentChild.transform.position.x < Player.transform.position.x)
+            //{
+            //    transform.GetComponent<GameController>().IncreaseScore();
+            //}
             //Destroys object if offscreen.
             if (currentChild.transform.position.x <= destroyLocationOffset)
             {

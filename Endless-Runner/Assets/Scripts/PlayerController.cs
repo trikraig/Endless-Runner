@@ -6,32 +6,41 @@ public class PlayerController : MonoBehaviour
 
 {
     public float jumpPower = 10f;
-    float posX = 0.0f;
+    //Off screen variable.
+    float posX = -7.00f;
     Rigidbody2D myRigidBody;
     bool isGrounded = false;
     bool isGameOver = false;
     ChallengeScroller myChallengeScroller;
+    GameController myGameController;
 
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody = transform.GetComponent<Rigidbody2D>();
         myChallengeScroller = GameObject.FindObjectOfType<ChallengeScroller>();
+        myGameController = GameObject.FindObjectOfType<GameController>();
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
+        //if (Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
+        //{
+        //    myRigidBody.AddForce(Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
+        //}
+
+        if(Input.touchCount > 0)
         {
             myRigidBody.AddForce(Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
         }
+
         //Hit in face check
         if (transform.position.x < posX)
         {
             GameOver();
         }
 
-
+       
     }
 
     private void Update()
@@ -71,6 +80,15 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "Ground")
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Score")
+        {
+            myGameController.IncreaseScore(5);
+            Destroy(collision.gameObject);
         }
     }
 }
