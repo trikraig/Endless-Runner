@@ -6,32 +6,43 @@ public class PlayerController : MonoBehaviour
 
 {
     public float jumpPower = 10f;
+    public float maxVelocity = 10f;
+    float sqrMaxVelocity;
+    
     //Off screen variable.
     float posX = -7.00f;
+    
     Rigidbody2D myRigidBody;
     bool isGrounded = false;
     bool isGameOver = false;
+    bool jump = false;
     ChallengeScroller myChallengeScroller;
     GameController myGameController;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         myRigidBody = transform.GetComponent<Rigidbody2D>();
         myChallengeScroller = GameObject.FindObjectOfType<ChallengeScroller>();
         myGameController = GameObject.FindObjectOfType<GameController>();
+        sqrMaxVelocity = maxVelocity * maxVelocity;
     }
+
+
 
     private void FixedUpdate()
     {
-        //if (Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
-        //{
-        //    myRigidBody.AddForce(Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
-        //}
 
-        if(Input.touchCount > 0)
+        var v = myRigidBody.velocity;
+
+        if (v.SqrMagnitude() > sqrMaxVelocity)
         {
-            myRigidBody.AddForce(Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
+            myRigidBody.velocity = v.normalized * maxVelocity;
+        }
+
+        if(Input.touchCount > 0 || Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
+        {
+            
+            myRigidBody.AddForce( Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
         }
 
         //Hit in face check
@@ -40,8 +51,10 @@ public class PlayerController : MonoBehaviour
             GameOver();
         }
 
-       
+        
     }
+
+    
 
     private void Update()
     {
