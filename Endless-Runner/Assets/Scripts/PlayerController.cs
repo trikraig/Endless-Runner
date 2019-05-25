@@ -31,11 +31,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        //TO CLAMP MOVEMENT SPEED
         var v = myRigidBody.velocity;
 
         if (v.SqrMagnitude() > sqrMaxVelocity)
         {
+            //Normalised converts vector length to 1
             myRigidBody.velocity = v.normalized * maxVelocity;
         }
 
