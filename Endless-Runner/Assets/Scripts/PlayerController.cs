@@ -7,15 +7,18 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpPower = 10f;
     public float maxVelocity = 10f;
+        
+    
     float sqrMaxVelocity;
     
-    //Off screen variable.
-    float posX = -7.00f;
     
+    //Off screen variable.
+    float posX = -10.00f;
+    public Animator animator;
     Rigidbody2D myRigidBody;
     bool isGrounded = false;
     bool isGameOver = false;
-    bool jump = false;
+    //bool jump = false;
     ChallengeScroller myChallengeScroller;
     GameController myGameController;
 
@@ -42,16 +45,17 @@ public class PlayerController : MonoBehaviour
 
         if(Input.touchCount > 0 || Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
         {
-            
+            animator.SetBool("jump", true);
             myRigidBody.AddForce( Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));
         }
 
         //Hit in face check
         if (transform.position.x < posX)
         {
-            GameOver();
+           GameOver();
         }
 
+        animator.SetFloat("speed", myChallengeScroller.scrollSpeed);
         
     }
 
@@ -73,6 +77,9 @@ public class PlayerController : MonoBehaviour
         if(collision.collider.tag == "Ground")
         {
             isGrounded = true;
+            animator.SetBool("jump", false);
+            //myRigidBody.SetRotation(0);
+            myRigidBody.MoveRotation(-myRigidBody.rotation * Time.fixedDeltaTime);
         }
 
         if (collision.collider.tag == "Enemy")

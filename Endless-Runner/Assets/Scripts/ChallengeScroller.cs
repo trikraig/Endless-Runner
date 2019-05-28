@@ -59,6 +59,7 @@ public class ChallengeScroller : MonoBehaviour
 
   public void setGameOver()
     {
+        scrollSpeed = 0f;
         isGameOver = true;
         transform.GetComponent<GameController>().InvokeGameOver();
     }
