@@ -10,19 +10,20 @@ public class GameController : MonoBehaviour
     public GameObject gameOverPanel;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
+    public ChallengeScroller myChallengeScroller;
     int score = 0;
-     
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void InvokeGameOver()
@@ -44,7 +45,9 @@ public class GameController : MonoBehaviour
 
     public void IncreaseScore(int amount)
     {
+        myChallengeScroller.increaseSpeed();
         score += amount;
         scoreText.text = score.ToString();
     }
-}
+
+} 

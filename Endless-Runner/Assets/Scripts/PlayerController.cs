@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
             myRigidBody.velocity = v.normalized * maxVelocity;
         }
 
-        if(Input.touchCount > 0 || Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
+        if(Input.touchCount > 0 && isGrounded && !isGameOver || Input.GetKey(KeyCode.Space) && isGrounded && !isGameOver)
         {
             animator.SetBool("jump", true);
             myRigidBody.AddForce( Vector3.up * (jumpPower * myRigidBody.mass * myRigidBody.gravityScale * 20.0f));

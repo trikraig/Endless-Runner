@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ChallengeScroller : MonoBehaviour
 {
-    public float scrollSpeed = 5f;
+    public float scrollSpeed = 1f;
     public GameObject[] obstacles;
     GameObject Player;
     public float obstacleFrequency = 0.5f;
     public Transform obstacleSpawnPoint;
     float counter = 0.0f;
     float destroyLocationOffset = -15.0f;
+   
 
     bool isGameOver = false;
 
@@ -25,6 +26,8 @@ public class ChallengeScroller : MonoBehaviour
         {
             return;
         }
+
+        
         //Generate new obstacles
         if (counter <= 0.0f)
         {
@@ -75,4 +78,8 @@ public class ChallengeScroller : MonoBehaviour
         counter = 1.0f;
     }
 
+    public void increaseSpeed()
+    {
+        scrollSpeed += 0.5f;
+    }
 }
